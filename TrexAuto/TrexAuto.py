@@ -20,7 +20,7 @@ class TrexAuto:
         self.clear_area = {'left': 6, 'top': 580, 'width': 155, 'height': 80}  # Area for clearing obstacles
         self.game_over_area = {'left': 651, 'top': 369, 'width': 620, 'height': 44}  # Area for detecting game over
         self.bird_area = {'left': 139, 'top': 500, 'width': 224, 'height': 32}  # Area for detecting birds
-        self.daytime_area = {'left': 50, 'top': 100, 'width': 10, 'height': 10}  # Area for detecting daytime
+        self.daytime_area = {'left': 50, 'top': 800, 'width': 10, 'height': 10}  # Area for detecting daytime
         self.score_area = {'left': 1707, 'top': 258, 'width': 175, 'height': 53}  # Area for detecting score
         self.environment = 'day'  # Initial environment setting
         self.keyboard = Controller()  # Keyboard controller
@@ -382,23 +382,33 @@ class GUI:
             # Draw rectangles for each area
             cv2.rectangle(screen, (self.trex.obstacle_area['left'], self.trex.obstacle_area['top']), (
                 self.trex.obstacle_area['left'] + self.trex.obstacle_area['width'],
-                self.trex.obstacle_area['height'] + self.trex.obstacle_area['top']), (255, 0, 0), 1)
+                self.trex.obstacle_area['height'] + self.trex.obstacle_area['top']), (255, 0, 0), 2)
             cv2.rectangle(screen, (self.trex.clear_area['left'], self.trex.clear_area['top']), (
                 self.trex.clear_area['left'] + self.trex.clear_area['width'],
-                self.trex.clear_area['height'] + self.trex.clear_area['top']), (0, 255, 0), 2)
+                self.trex.clear_area['height'] + self.trex.clear_area['top']), (255, 136, 0), 2)
             cv2.rectangle(screen, (self.trex.game_over_area['left'], self.trex.game_over_area['top']), (
                 self.trex.game_over_area['left'] + self.trex.game_over_area['width'],
-                self.trex.game_over_area['height'] + self.trex.game_over_area['top']), (0, 0, 255), 3)
+                self.trex.game_over_area['height'] + self.trex.game_over_area['top']), (255, 255, 0), 2)
             cv2.rectangle(screen, (self.trex.bird_area['left'], self.trex.bird_area['top']), (
                 self.trex.bird_area['left'] + self.trex.bird_area['width'],
-                self.trex.bird_area['height'] + self.trex.bird_area['top']), (255, 0, 255), 3)
+                self.trex.bird_area['height'] + self.trex.bird_area['top']), (0, 136, 0), 2)
             cv2.rectangle(screen, (self.trex.daytime_area['left'], self.trex.daytime_area['top']), (
                 self.trex.daytime_area['left'] + self.trex.daytime_area['width'],
-                self.trex.daytime_area['height'] + self.trex.daytime_area['top']), (255, 0, 255), 3)
+                self.trex.daytime_area['height'] + self.trex.daytime_area['top']), (0,136,255), 2)
             cv2.rectangle(screen, (self.trex.score_area['left'], self.trex.score_area['top']), (
                 self.trex.score_area['left'] + self.trex.score_area['width'],
-                self.trex.score_area['height'] + self.trex.score_area['top']), (255, 0, 255), 3)
+                self.trex.score_area['height'] + self.trex.score_area['top']), (136,0,255), 2)
 
+            regions = ['obstacle','clear','game_over','bird','daytime','score']
+            colors = [(255, 0, 0),(255, 136, 0),(255, 255, 0),(0, 136, 0),(0,136,255),(136,0,255)]
+
+            for x in range(len(regions)):
+                offset = 0
+                cv2.line(screen, (20, 50 + (30 * x)), (120, 50 + (30 * x)), colors[x], 5)
+                for i in range(3):
+                    cv2.putText(screen,regions[x],(130,56+(31*x)+i),1,2,colors[x])
+                for i in range(3):
+                    cv2.putText(screen, regions[x], (130+i, 56 + (31 * x)), 1, 2, colors[x])
             while True:
                 cv2.imshow('test', screen)
                 key = cv2.waitKey(1)
